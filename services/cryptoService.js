@@ -37,11 +37,22 @@ async function buyCrypto (cryptoId, userId) {
     await crypto.save();
 }
 
+async function searchCrypto (keyword, method) {
+    
+    const query = {};
+    if (keyword) {
+        query.name = new RegExp(keyword, 'i');
+        query.paymentMethod = method;
+    }
+    return Crypto.find(query).lean();
+}
+
 module.exports = {
     createCrypto,
     getAll,
     getById,
     editCrypto,
     deleteCrypto,
-    buyCrypto
+    buyCrypto,
+    searchCrypto
 }

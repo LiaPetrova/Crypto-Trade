@@ -2,7 +2,7 @@ const cryptoController = require('express').Router();
 
 const { body, validationResult } = require('express-validator');
 const { hasUser } = require('../middlewares/guards');
-const { createCrypto, getAll, getById, editCrypto, deleteCrypto, buyCrypto } = require('../services/cryptoService');
+const { createCrypto, getAll, getById, editCrypto, deleteCrypto, buyCrypto, searchCrypto } = require('../services/cryptoService');
 const errorParser = require('../util/errorParser');
 
 cryptoController.get('/', async (req, res) => {
@@ -163,6 +163,26 @@ cryptoController.get('/:id/buy', hasUser(), async (req, res) => {
         });
     }
 });
+
+cryptoController.get('/search', async (req, res) => {
+
+    const keyword = req.query.search;
+    const paymentMethod = req.query.paymentMethod;
+
+    const results = await searchCrypto(keyword, paymentMethod);
+    results.keyword = keyword;
+    results.paymentMethod = paymentMethod;
+    res.render('search', {
+        title: 'Search cryptos',
+        results,
+
+    });
+
+    console.log(paymentMethod);
+
+
+});
+
 
 
 
