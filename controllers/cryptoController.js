@@ -175,11 +175,8 @@ cryptoController.get('/search', async (req, res) => {
     res.render('search', {
         title: 'Search cryptos',
         results,
-
+        search: keyword
     });
-
-    console.log(paymentMethod);
-
 
 });
 
